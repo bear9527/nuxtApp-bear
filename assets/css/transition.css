@@ -1,0 +1,19 @@
+/* 路由统一动效 */
+
+/* 动画形式 */
+.page-enter-active, .page-leave-active{
+    transition: opacity .5s;
+}
+
+/* 入 进 */
+.page-enter, .page-leave-active{
+    opacity: 0;
+}
+
+/* 商品详情页的 transition:goodsDetailsAni(动画前缀) */
+.goodsDetailsAni-enter-active,.goodsDetailsAni-leave-active{
+    transition: 0.5s ease all;
+}
+.goodsDetailsAni-enter,.goodsDetailsAni-leave-active{
+    margin-left:-1000px;
+}
