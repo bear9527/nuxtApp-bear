@@ -9,43 +9,6 @@
 <body {{BODY_ATTRS}}>
   {{APP}}
 
-  <!-- <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
-  <script>
-    var loadConfig = {
-      url_api: '/err/list.php', //修正plus目录
-      typeid: "0", //首页此处是typeid:0,
-      page: 1,
-      pagesize: 999,
-      loading: 0,
-    }
-    var pushLenght = 0;
-    var page = loadConfig.page;
-    var typeid = loadConfig.typeid;
-    var pagesize = loadConfig.pagesize;
-    var url = loadConfig.url_api,
-      data = {
-        ajax: 'pullload',
-        typeid: typeid,
-        page: page,
-        pagesize: pagesize
-      };
-    var allData = [];
-    (function ajax(url, data) {
-      $.ajax({
-        url: url,
-        data: data,
-        async: false,
-        type: 'GET',
-        dataType: 'json',
-        success: function (data) {
-          // addContent(data);
-          allData = data;
-          allData.list.sort(compare("weight", true)); //true权重越往上 false相反
-        }
-      });
-    })(url, data); //传入参数 并立即执行
-
-  </script> -->
 </body>
 
 </html>
