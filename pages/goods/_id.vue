@@ -1,8 +1,9 @@
 <template>
     <div class="goods">
         <h3>商品详情</h3>
-        <h4>{{detaTitle}}</h4>
+        <h4>{{detaObj.title}}</h4>
         <h4>{{detaContent}}</h4>
+        <img :src="detaObj.picname" alt="">
     </div>
 </template>
 
@@ -13,20 +14,21 @@ export default {
         return typeof params.id === 'string'||'number'
     },
     async asyncData({$axios,params}){
-        let detailObj = await $axios({
-            url:'/api/list.json'
-        })
+        let detailObj = await $axios({url:'/err/list.php',params:{ajax:'pullload',typeid:0,page:1,pagesize:20}})
         let detaTitle = '';
         let detaContent = '';
-        detailObj.data.data.map((item)=>{
-            if(params.id == item._id){
+        let detaObj = {};
+        detailObj.data.list.map((item)=>{
+            if(params.id == item.id){
                 detaTitle = item.title;
-                detaContent = item.content;
+                detaContent = item.keywords;
+                detaObj = item;
             }
         })
         return{
             detaTitle,
-            detaContent
+            detaContent,
+            detaObj
         }
     },
     head(){

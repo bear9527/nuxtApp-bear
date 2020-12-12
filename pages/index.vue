@@ -18,7 +18,9 @@
           :span="6"
           class="listItem"
         >
-          <img :src="item.litpic" :alt="item.title">
+          <nuxt-link :to="{name:'goods-id',params:{id:item.id},query:{collectionName:'banner'}}">
+            <img :src="item.litpic" :alt="item.title">
+          </nuxt-link>
         </el-col>
       </el-row>
     </div>
