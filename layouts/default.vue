@@ -1,7 +1,11 @@
 <template>
-  <div>
-    <app-header v-if="isTrue"/>
-    <Nuxt />
+  <div class="pageWrapper">
+    <div class="pageLeft">
+      <app-header v-if="isTrue"/>
+    </div>
+    <div class="pageMain">
+      <Nuxt />
+    </div>
   </div>
 </template>
 
@@ -42,7 +46,7 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="scss">
 html {
   font-family:
     'Source Sans Pro',
@@ -96,5 +100,21 @@ html {
 .button--grey:hover {
   color: #fff;
   background-color: #35495e;
+}
+.pageWrapper{
+  .pageLeft{
+    // float: left;
+    position: fixed;
+    top: 68px;
+    z-index: 99;
+    height: 100%;
+    background-color: #fff;
+  }
+  .pageMain{
+    margin-left: 64px;
+    margin-top: 64px;
+    position: relative;
+    z-index: 1;
+  }
 }
 </style>

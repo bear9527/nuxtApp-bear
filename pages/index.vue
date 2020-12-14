@@ -16,6 +16,9 @@
           v-for="item in title"
           :key="item.id + 'col'"
           :span="6"
+          :xs="24" 
+          :sm="8"
+          :md="6"
           class="listItem"
         >
           <nuxt-link :to="{name:'goods-id',params:{id:item.id},query:{collectionName:'banner'}}">
@@ -38,7 +41,7 @@ export default {
     let res = await $axios({url:'/err/list.php',params:{ajax:'pullload',typeid:0,page:1,pagesize:20}})
     let banner = await $axios({url:'/err/list.php',params:{ajax:'pullload',typeid:4,page:1,pagesize:999}})
     // console.log('res',res)
-    console.log('res',res.data)
+    // console.log('res',res.data)
     return{
       title:res.data.list,
       banner:banner.data.list
@@ -50,13 +53,13 @@ export default {
     // store.commit('home/M_UPDATE_USER',{err:0,msg:'登录成功',token:'',data:{title:'user模块的actions提交过来的数据'}});
   },
   mounted(){
-    console.log('this',this)
+    // console.log('this',this)
   }
   ,
   methods:{
     getStore(){
       //编程式访问vuex
-      console.log(this)
+      // console.log(this)
       //发出actions请求给user模块
       // this.$store.dispatch('user/A_UPDATE_USER',{err:0,msg:'登录成功',token:'',data:{title:'user模块的actions提交过来的数据'}});
       // this.$store.commit('user/M_UPDATE_USER',{err:0,msg:'登录成功',token:'',data:{title:'user模块的actions提交过来的数据'}});

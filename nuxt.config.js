@@ -33,6 +33,7 @@ export default {
   // 全局 CSS (https://go.nuxtjs.dev/config-css)
   css: [
     'assets/css/transition.css',
+    'assets/css/reset.css',
     'element-ui/lib/theme-chalk/index.css'
   ],
 
