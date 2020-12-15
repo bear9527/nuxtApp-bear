@@ -5,16 +5,14 @@
 //state
 export const state =() => ({
     bNav: false,
-    bLoading:false
+    bLoading: false,
+    allList: {}
 });
 
 //mutations
 export const mutations = {
     M_UPDATE_NAV(state, payload) {
         state.bNav = payload;
-    },
-    M_UPDATE_LOADING(state, payload){
-        state.bLoading = payload;
     }
 }
 

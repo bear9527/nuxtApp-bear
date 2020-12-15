@@ -17,7 +17,7 @@
         </div>
         <div class="searchWrapper">
             <div class="search">
-                <input type="text" value="vue网页系统">
+                <input type="text" placeholder="vue网页系统">
                 <a class="searchBth" href="javascript:;">搜索</a>
             </div>
         </div>
@@ -85,7 +85,7 @@
     top: 0;
   }
   .logoWrapper{
-    width: 300px;
+    width: 200px;
     margin: 16px 0;
     float: left;
   }
@@ -115,9 +115,9 @@
       .search{
           display: flex;
           width: 360px;
-            border-radius: 10px;
-            overflow: hidden;
-              border:1px solid #ff142b;
+          border-radius: 26px;
+          overflow: hidden;
+          border:1px solid #ff142b;
           input{
               flex: 1;
               height: 30px;
@@ -141,6 +141,7 @@
 </style>
 
 <script>
+  import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
   export default {
     data() {
       return {
@@ -161,12 +162,14 @@
             }}).then(function(res){
                 //赋值给data
                 navThis.allData = res.data.list;
+                navThis.$store.commit('home/M_UPDATE_ALLLIST',res.data.list);
+                // console.log('vuex',navThis.$store.commit('index/M_UPDATE_ALLLIST',res.data.list))
                 let tempData = [];  //创建空数组 用于字段比对
                 let eliminate = [4,6,29,11,81,12,9,38];
                 //遍历数组赋值
                 navThis.allData.map(item=>{
                     if(eliminate.includes(parseInt(item.typeid))){
-                        console.log("剔除了",item.typename)
+                        // console.log("剔除了",item.typename)
                     }else{
 
                         if(!tempData.includes(item.typeid)){
@@ -175,8 +178,9 @@
                         }
                     }
                 })
-                console.log('匹配',navThis.navData);
-            })
+                // console.log('匹配',navThis.navData);
+            });
+            console.log('screenjxly',this.$store.getters['home/screenjxly']);
     },
     methods: {
       tapNavBtn(){

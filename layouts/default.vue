@@ -65,7 +65,11 @@ html {
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
 }
-
+body{
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
 *,
 *::before,
 *::after {
@@ -115,6 +119,15 @@ html {
     margin-top: 64px;
     position: relative;
     z-index: 1;
+
+
+      position: relative;
+    width: 100%;
+  width: calc(100% - 64px);
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    background: #f7f7f7;
   }
 }
 </style>

@@ -1,27 +1,16 @@
 <template>
   <div class="container">
     <div>
-      <el-carousel indicator-position="outside">
-        <el-carousel-item v-for="item in banner" :key="item._id">
-          
-          <nuxt-link :to="{name:'goods-id',params:{id:item._id},query:{collectionName:'banner'}}">
-            <!-- {{item.title}} -->
-            <img :src="item.litpic" :alt="item.title">
-          </nuxt-link>
-        </el-carousel-item>
-      </el-carousel>
-
-      <el-row :gutter="20">
+      <el-row :gutter="0" class="infinite-list goodsInfinite" v-infinite-scroll="load">
         <el-col 
-          v-for="item in title"
+          v-for="item in viewList"
           :key="item.id + 'col'"
           :span="6"
           :xs="24" 
           :sm="8"
           :md="6"
-          class="listItem"
-        >
-          <nuxt-link :to="{name:'goods-id',params:{id:item.id},query:{collectionName:'banner'}}">
+          class="listItem infinite-list-item">
+          <nuxt-link :to="{name:'goods-id',params:{id:item.id},query:{collectionName:'detail'}}">
             <img :src="item.litpic" :alt="item.title">
           </nuxt-link>
         </el-col>
@@ -34,17 +23,12 @@
 import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
 export default {
   async asyncData({$axios}){
-    // let res = await $axios({url:'/data/list.json'})
-    // console.log('list.json:',res.data)
-    // let banner = await $axios({url:'/api/list.json',params:{_limit:1}})
-    // console.log(banner.data)
-    let res = await $axios({url:'/err/list.php',params:{ajax:'pullload',typeid:0,page:1,pagesize:20}})
-    let banner = await $axios({url:'/err/list.php',params:{ajax:'pullload',typeid:4,page:1,pagesize:999}})
-    // console.log('res',res)
+    let res = await $axios({url:'/err/list.php',params:{ajax:'pullload',typeid:0,page:1,pagesize:100}});
+
+
     // console.log('res',res.data)
     return{
-      title:res.data.list,
-      banner:banner.data.list
+      goodsList:res.data.list,
     }
   },
   async fetch({$axios,store,error}){
@@ -52,11 +36,24 @@ export default {
     res2.data && store.commit('home/M_UPDATE_HOME',{err:0,data:res2.data})
     // store.commit('home/M_UPDATE_USER',{err:0,msg:'登录成功',token:'',data:{title:'user模块的actions提交过来的数据'}});
   },
+    data () {
+      return {
+        count: 0,
+        viewList:[],
+      }
+    },
   mounted(){
-    // console.log('this',this)
-  }
-  ,
+    // console.log('this',this.goodsList.filter(item=>item.typeid == 35 ))
+  },
   methods:{
+      load () {
+        console.log('执行 load')
+        this.count += 3;  //每次加三个
+        let tempNum = 3;  
+        for(let i = 0;i<3;i++){
+          this.viewList.push(this.goodsList[this.count - tempNum--]);
+        }
+      },
     getStore(){
       //编程式访问vuex
       // console.log(this)
@@ -81,14 +78,34 @@ export default {
 
 <style lang="scss" scoped>
 .container {
+  width: 100%;
+  height: auto;
   margin: 0 auto;
   min-height: 100vh;
+  // height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
+  // overflow-y:auto;
 }
+.container >div{
+  width: 100%;
+  height: 100%;
+}
+.goodsInfinite{
+  width: 100%;
+  height: 1px;
+  min-height: 100vh;
+overflow-y:auto;
 
+  // position: relative;
+  //   width: 100%;
+  //   display: inline-flex;
+  //   flex-direction: column;
+  //   align-items: center;
+  //   background: #f7f7f7;
+}
 .title {
   display: block;
   font-weight: 300;
