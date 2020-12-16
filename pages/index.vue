@@ -22,11 +22,8 @@
 <script>
 import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
 export default {
-  async asyncData({$axios}){
+  async asyncData({$axios,store}){
     let res = await $axios({url:'/err/list.php',params:{ajax:'pullload',typeid:0,page:1,pagesize:100}});
-
-
-    // console.log('res',res.data)
     return{
       goodsList:res.data.list,
     }
@@ -35,16 +32,51 @@ export default {
     let res2 = await $axios({url:'/api/list.json',params:{_limit:1}})
     res2.data && store.commit('home/M_UPDATE_HOME',{err:0,data:res2.data})
     // store.commit('home/M_UPDATE_USER',{err:0,msg:'登录成功',token:'',data:{title:'user模块的actions提交过来的数据'}});
+
+    
+    // console.log('store.getters.allList',store.getters.getAllList);
   },
     data () {
       return {
         count: 0,
         viewList:[],
+        goodsList:[]
       }
     },
-  mounted(){
-    // console.log('this',this.goodsList.filter(item=>item.typeid == 35 ))
-  },
+    beforeCreate(){
+      console.log('index beforeCreate',this.$store.getters.getAllList);
+        // this.goodsList = this.$store.getters.getAllList
+      },
+      created(){
+               setTimeout(()=>{
+                // console.log(this.$store.state.allList)
+                console.log(this.$store.getters.getAllList)
+                  this.goodsList = this.$store.getters.getAllList
+                },500)
+        console.log(this.$store.state.getAllList)
+      // this.goodsList = this.$store.getters.getAllList
+    },
+    mounted(){
+      console.log('index mounted',this.$store.getters.getAllList);
+      // this.goodsList = this.$store.getters.getAllList
+    },
+    watch:{
+      '$store.state.allList'(){
+        // this.goodsList = this.$store.getters.getAllList
+      },
+      '$store.state.viewList'(){
+        console.log('viewList 改变了');
+        // this.viewList.shift(this.$store.getters.getViewList);
+        console.log(this)
+             setTimeout(()=>{
+            this.viewList = this.$store.getters.getviewList;
+          // this.viewList = this.$store.getters['screenType'](35);
+            // console.log(this.$store.getters.getViewList)
+          console.log(35,this.$store.getters['screenType'](35));
+          console.log(35,this.$store.getters.getviewList);
+          },1500)
+      }
+    },
   methods:{
       load () {
         console.log('执行 load')
@@ -53,10 +85,10 @@ export default {
         for(let i = 0;i<3;i++){
           this.viewList.push(this.goodsList[this.count - tempNum--]);
         }
-      },
+      },  
     getStore(){
       //编程式访问vuex
-      // console.log(this)
+      console.log('getSotre',this)
       //发出actions请求给user模块
       // this.$store.dispatch('user/A_UPDATE_USER',{err:0,msg:'登录成功',token:'',data:{title:'user模块的actions提交过来的数据'}});
       // this.$store.commit('user/M_UPDATE_USER',{err:0,msg:'登录成功',token:'',data:{title:'user模块的actions提交过来的数据'}});
@@ -69,7 +101,8 @@ export default {
   computed:{
     XX(){},
     ...mapGetters(['getNav']),
-    ...mapState(['bNav']),
+    ...mapGetters(['getAllList']),
+    ...mapState(['bNav','allList']),
     ...mapState('user',['data']),
     ...mapState({home:state=>state.home.data})
   }
@@ -134,8 +167,6 @@ overflow-y:auto;
     width:100%;
   }
 }
-
-
 
 
 

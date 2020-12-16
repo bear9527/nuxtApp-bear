@@ -34,10 +34,14 @@
         <el-menu-item-group>
           <span slot="title">静态网页</span>
           <el-menu-item 
+          @click="switchType()"
+          >全部</el-menu-item>
+          <el-menu-item 
           v-for="(item,index) of navData"
           :key="item.typeid"
           :index="'1-'+index"
           :typeid="item.typeid"
+          @click="switchType(item.typeid)"
           >{{item.typename}}</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
@@ -94,7 +98,18 @@
         display: block;
     }
 
+
   }
+  .el-menu-item-group{
+    padding: 0;
+    background-color: #fff;
+  }
+  .el-menu--popup li{
+    height:40px;
+    line-height: 40px;
+    // background-color: #fff;
+  }
+
   .navBtn {
     width: 66px;
     margin: 6px 0px;
@@ -143,6 +158,16 @@
 <script>
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
   export default {
+    // async async({$axios,store}){
+    //   let res = await $axios({url:'/err/list.php',params:{ajax:'pullload',typeid:0,page:1,pagesize:100}}).then(function(res){
+    //     console.log('async',res);
+    //     store.commit('M_UPDATE_ALLLIST',res.data.list);
+    //   });
+
+    //   return{
+    //     goodsList:res.data.list,
+    //   }
+    // },
     data() {
       return {
         isCollapse: true, //导航详情是否显示
@@ -151,36 +176,35 @@
 
       };
     },
-    mounted(){
-        var navThis = this;
-        let res = this.$axios({
-                url:'/err/list.php',
-                params:{ajax:'pullload',
-                typeid:0,
-                page:1,
-                pagesize:100
-            }}).then(function(res){
-                //赋值给data
-                navThis.allData = res.data.list;
-                navThis.$store.commit('home/M_UPDATE_ALLLIST',res.data.list);
-                // console.log('vuex',navThis.$store.commit('index/M_UPDATE_ALLLIST',res.data.list))
+    beforeCreate(){
+      var _this = this;
+      let res = this.$axios({url:'/err/list.php',params:{ajax:'pullload',typeid:0,page:1,pagesize:100}}).then(function(res){
+        console.log('async',res);
+
+        _this.$store.commit('M_UPDATE_ALLLIST',res.data.list);
+        console.log('async',_this.$store.getters.getAllList);
+
+                _this.allData = res.data.list;
+                // console.log('screenType',navThis.$store.getters['home/screenType'](66));
                 let tempData = [];  //创建空数组 用于字段比对
                 let eliminate = [4,6,29,11,81,12,9,38];
                 //遍历数组赋值
-                navThis.allData.map(item=>{
+                _this.allData.map(item=>{
                     if(eliminate.includes(parseInt(item.typeid))){
                         // console.log("剔除了",item.typename)
                     }else{
 
                         if(!tempData.includes(item.typeid)){
                             tempData.push(item.typeid);
-                            navThis.navData.push({"typeid":item.typeid,"typename":item.typename})
+                            _this.navData.push({"typeid":item.typeid,"typename":item.typename})
                         }
                     }
                 })
-                // console.log('匹配',navThis.navData);
-            });
-            console.log('screenjxly',this.$store.getters['home/screenjxly']);
+
+      });
+    },
+    mounted(){
+
     },
     methods: {
       tapNavBtn(){
@@ -190,12 +214,22 @@
               this.isCollapse = true;
           }
       },
+      //筛选分类
+      switchType(typeid){
+        console.log(typeid,this.$store.getters['screenType'](typeid));
+        
+        this.$store.commit('M_UPDATE_VIEWLIST',this.$store.getters['screenType'](typeid));
+        // this.$store.commit('M_UPDATE_ALLLIST',this.$store.getters['screenType'](typeid));
+      },
       handleOpen(key, keyPath) {
         console.log(key, keyPath);
       },
       handleClose(key, keyPath) {
         console.log(key, keyPath);
       }
+    },
+    computed:{
+      // ...mapGetters(['getNav','getAllList']),
     }
   }
 

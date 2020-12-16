@@ -6,13 +6,21 @@
 export const state =() => ({
     bNav: false,
     bLoading: false,
-    allList: {}
+    allList: {},
+    viewList:[],
 });
 
 //mutations
 export const mutations = {
     M_UPDATE_NAV(state, payload) {
         state.bNav = payload;
+    },
+    M_UPDATE_ALLLIST(state, payload){
+        state.allList = payload;
+        // console.log("M_UPDATE_ALLLIST",state.allList)
+    },
+    M_UPDATE_VIEWLIST(state, payload) {
+        state.viewList = payload;
     }
 }
 
@@ -29,5 +37,19 @@ export const actions = {
 export const getters = {
     getNav(state){
         return state.bNav ? '显示':'隐藏'
-    }
+    },
+    getAllList:(state)=>{
+        return state.allList
+    },
+    getviewList:(state)=>{
+        return state.viewList
+    },
+    // 获取typeid 筛选出去
+    screenType: state => (typeid) => {
+        if(typeid){
+            return state.allList.filter(item=>item.typeid == typeid);
+        }else{
+            return state.allList.slice(0,20);
+        }
+    },
 }

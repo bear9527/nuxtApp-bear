@@ -1,84 +1,15 @@
 export const state=()=>({
     err:1,
     data:{},
-    allList: {}
+    allList: {} //不变动的全部数据
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //getters
 export const getters = {
-    // 家乡旅游
-    screenjxly: state => {
-        return state.allList.filter(item=>item.typeid == 35)
-    }, 
-    // 人物明星
-    screenjxly: state => {
-        return state.allList.filter(item=>item.typeid == 35)
-    },
-    // 个人博客
-    screenjxly: state => {
-        return state.allList.filter(item=>item.typeid == 35)
-    },
-    // 影视音乐
-    screenjxly: state => {
-        return state.allList.filter(item=>item.typeid == 35)
-    },
-    // 公司企业
-    screenjxly: state => {
-        return state.allList.filter(item=>item.typeid == 35)
-    },
-    // 游戏动漫
-    screenjxly: state => {
-        return state.allList.filter(item=>item.typeid == 35)
-    },
-    // 科技未来
-    screenjxly: state => {
-        return state.allList.filter(item=>item.typeid == 35)
-    },
-    // 餐饮美食
-    screenjxly: state => {
-        return state.allList.filter(item=>item.typeid == 35)
-    },
-    // 电子商务
-    screenjxly: state => {
-        return state.allList.filter(item=>item.typeid == 35)
-    },
-    // 运动体育
-    screenjxly: state => {
-        return state.allList.filter(item=>item.typeid == 35)
-    },
-    // 校园班级
-    screenjxly: state => {
-        return state.allList.filter(item=>item.typeid == 35)
-    },
-    // 节日环保
-    screenjxly: state => {
-        return state.allList.filter(item=>item.typeid == 35)
-    },
-    // 宠物花草
-    screenjxly: state => {
-        return state.allList.filter(item=>item.typeid == 35)
-    },
-    // 电商购物
-    screenjxly: state => {
-        return state.allList.filter(item=>item.typeid == 35)
-    },
-    // 文学文化
-    screenjxly: state => {
-        return state.allList.filter(item=>item.typeid == 35)
+    // 获取typeid 筛选出去
+    screenType: state => (typeid) => {
+        return state.allList.filter(item=>item.typeid == typeid)
     },
 }
 
