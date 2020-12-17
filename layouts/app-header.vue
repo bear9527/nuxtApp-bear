@@ -34,9 +34,11 @@
         <el-menu-item-group>
           <span slot="title">静态网页</span>
           <el-menu-item 
+          class="popItem"
           @click="switchType()"
           >全部</el-menu-item>
           <el-menu-item 
+          class="popItem"
           v-for="(item,index) of navData"
           :key="item.typeid"
           :index="'1-'+index"
@@ -100,14 +102,13 @@
 
 
   }
-  .el-menu-item-group{
+  /deep/ .el-menu-item-group{
     padding: 0;
     background-color: #fff;
   }
-  .el-menu--popup li{
+  /deep/ .popItem{
     height:40px;
     line-height: 40px;
-    // background-color: #fff;
   }
 
   .navBtn {

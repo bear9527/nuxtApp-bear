@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <div>
-      <el-row :gutter="0" class="infinite-list goodsInfinite" v-infinite-scroll="load">
+    <div class="listWrapper">
+      <el-row :gutter="0" class="infinite-list goodsInfinite" v-infinite-scroll="loadMore">
         <el-col 
           v-for="item in viewList"
           :key="item.id + 'col'"
@@ -9,10 +9,14 @@
           :xs="24" 
           :sm="8"
           :md="6"
+          :lg="6"
           class="listItem infinite-list-item">
           <nuxt-link :to="{name:'goods-id',params:{id:item.id},query:{collectionName:'detail'}}">
             <img :src="item.litpic" :alt="item.title">
           </nuxt-link>
+        </el-col>
+        <el-col>
+          <div class="listState" v-show="listState">{{listStateTxt}}</div>
         </el-col>
       </el-row>
     </div>
@@ -39,22 +43,15 @@ export default {
     data () {
       return {
         count: 0,
-        viewList:[],
-        goodsList:[]
+        goodsList:[], //全部列表
+        viewList:[],  //显示的列表
+        listState:false,
+        listStateTxt:'正在加载...'
       }
     },
     beforeCreate(){
       console.log('index beforeCreate',this.$store.getters.getAllList);
         // this.goodsList = this.$store.getters.getAllList
-      },
-      created(){
-               setTimeout(()=>{
-                // console.log(this.$store.state.allList)
-                console.log(this.$store.getters.getAllList)
-                  this.goodsList = this.$store.getters.getAllList
-                },500)
-        console.log(this.$store.state.getAllList)
-      // this.goodsList = this.$store.getters.getAllList
     },
     mounted(){
       console.log('index mounted',this.$store.getters.getAllList);
@@ -66,25 +63,42 @@ export default {
       },
       '$store.state.viewList'(){
         console.log('viewList 改变了');
-        // this.viewList.shift(this.$store.getters.getViewList);
-        console.log(this)
-             setTimeout(()=>{
+
+        //更新显示列表
+        setTimeout(()=>{
+          let vLength = this.$store.getters.getviewList.length;
+          console.log('vLength',vLength);
+
+          //少于20个直接全部显示
+          if(vLength <= 20){
             this.viewList = this.$store.getters.getviewList;
-          // this.viewList = this.$store.getters['screenType'](35);
-            // console.log(this.$store.getters.getViewList)
-          console.log(35,this.$store.getters['screenType'](35));
-          console.log(35,this.$store.getters.getviewList);
-          },1500)
+            this.goodsList = [];
+            this.listState = false;
+          }else{
+            this.viewList = this.$store.getters.getviewList.slice(0,20);
+            this.goodsList = this.$store.getters.getviewList.slice(20,vLength - 1);
+            this.listState = false;
+          }
+        },500)
       }
     },
   methods:{
-      load () {
-        console.log('执行 load')
-        this.count += 3;  //每次加三个
-        let tempNum = 3;  
-        for(let i = 0;i<3;i++){
-          this.viewList.push(this.goodsList[this.count - tempNum--]);
-        }
+      loadMore () {
+        console.log('执行 loadMore');
+        this.listState = true;
+        setTimeout(()=>{
+          this.count += 3;  //每次加三个
+          let tempNum = 3;  
+          for(let i = 0;i<3;i++){
+            if(this.goodsList[this.count - 3] == undefined||this.goodsList[this.count - 2] == undefined||this.goodsList[this.count - 2] == undefined){
+              this.listState = true;
+              this.listStateTxt = '没有更多的啦啦啦';
+              return;
+            }
+            this.viewList.push(this.goodsList[this.count - tempNum--]);
+          }
+          this.listState = false;
+        },1000)
       },  
     getStore(){
       //编程式访问vuex
@@ -110,6 +124,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+body{
+  overflow: hidden;
+  font-family: cursive;
+}
 .container {
   width: 100%;
   height: auto;
@@ -122,6 +140,28 @@ export default {
   text-align: center;
   // overflow-y:auto;
 }
+.listState{
+  // width: 100%;
+  // height: 100px;
+  //   line-height: 3;
+  //   text-align: center;
+  //   color: #fff;
+  //   background-color: #ff142b;
+
+    font-family: cursive;
+    background-color: #000;
+
+    position: relative;
+    color: #FFF;
+    font-weight: 100;
+    font-size: 90px;
+    padding: 0;
+    margin: 0;
+    line-height: 1;
+    text-shadow: 0 0 10px #ff006c, 0 0 20px #ff006c, 0 0 30px #ff006c, 0 0 40px #ff417d, 0 0 70px #ff417d, 0 0 80px #ff417d, 0 0 100px #ff417d, 0 0 150px #ff417d;
+
+
+}
 .container >div{
   width: 100%;
   height: 100%;
@@ -130,7 +170,7 @@ export default {
   width: 100%;
   height: 1px;
   min-height: 100vh;
-overflow-y:auto;
+  overflow-y:auto;
 
   // position: relative;
   //   width: 100%;

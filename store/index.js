@@ -49,7 +49,8 @@ export const getters = {
         if(typeid){
             return state.allList.filter(item=>item.typeid == typeid);
         }else{
-            return state.allList.slice(0,20);
+            // return state.allList.slice(0,20);
+            return state.allList;
         }
     },
 }
