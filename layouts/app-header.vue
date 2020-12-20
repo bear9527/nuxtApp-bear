@@ -180,10 +180,9 @@
     beforeCreate(){
       var _this = this;
       let res = this.$axios({url:'/err/list.php',params:{ajax:'pullload',typeid:0,page:1,pagesize:100}}).then(function(res){
-        console.log('async',res);
+  
 
         _this.$store.commit('M_UPDATE_ALLLIST',res.data.list);
-        console.log('async',_this.$store.getters.getAllList);
 
                 _this.allData = res.data.list;
                 // console.log('screenType',navThis.$store.getters['home/screenType'](66));
@@ -217,7 +216,8 @@
       },
       //筛选分类
       switchType(typeid){
-        console.log(typeid,this.$store.getters['screenType'](typeid));
+        //切换分类的时候跳转
+        this.$router.push('/index');
         
         this.$store.commit('M_UPDATE_VIEWLIST',this.$store.getters['screenType'](typeid));
         // this.$store.commit('M_UPDATE_ALLLIST',this.$store.getters['screenType'](typeid));

@@ -1,9 +1,18 @@
 <template>
-    <div class="goods">
-        <h3>商品详情</h3>
-        <h4>{{detaObj.title}}</h4>
-        <h4>{{detaContent}}</h4>
-        <img :src="detaObj.picname" alt="">
+    <div class="goodsWrapper">
+        <div class="goodsTop">
+            <h1>{{goodsObj.title}}</h1>
+            <h4>{{goodsObj.title}}</h4>
+        </div>
+        <div class="demo-image__preview">
+            <el-image 
+                style="width: 100px; height: 100px"
+                v-for="item in goodsObj.imgurls"
+                :key="item"
+                :src="item"
+                :preview-src-list="goodsObj.imgurls">
+            </el-image>
+        </div>
     </div>
 </template>
 
@@ -13,22 +22,21 @@ export default {
     validate({params,query}){   //校验参数是否为数字 否则不让访问
         return typeof params.id === 'string'||'number'
     },
-    async asyncData({$axios,params}){
-        let detailObj = await $axios({url:'/err/list.php',params:{ajax:'pullload',typeid:0,page:1,pagesize:20}})
-        let detaTitle = '';
-        let detaContent = '';
-        let detaObj = {};
-        detailObj.data.list.map((item)=>{
-            if(params.id == item.id){
-                detaTitle = item.title;
-                detaContent = item.keywords;
-                detaObj = item;
-            }
-        })
+    async asyncData({$axios,params,store}){
+        // let detailObj = await $axios({url:'/err/list.php',params:{ajax:'pullload',typeid:0,page:1,pagesize:20}})
+        // let detailObj = await store.getters.getviewList
+        // console.log('st',store.getters.getAllList)
+        let goodsObjtemp = store.getters['screenGoods'](params.id)[0];
+        var p=/\{dede:img[^\}]*\}(.*?)\{\/dede:img\}/g;
+        var arr=[];
+        var m=null;
+        while(m=p.exec(goodsObjtemp.imgurls.imgurls)){
+                arr.push(RegExp.$1);  
+        }    
+        goodsObjtemp.imgurls = arr;
+        console.log(goodsObjtemp);
         return{
-            detaTitle,
-            detaContent,
-            detaObj
+            goodsObj:goodsObjtemp 
         }
     },
     head(){
@@ -36,7 +44,12 @@ export default {
             {hid:'keywords',name:'keywords',content:'woshiguanjianzi'}
         ])
     },
-    transition:'goodsDetailsAni'
+    transition:'goodsDetailsAni',
+    beforeMount(){
+        // setTimeout(()=>{
+        // console.log('st',this.$store.getters.getAllList)
+        // },50)
+    }
 }
 </script>
 <style lang="scss" scoped>

@@ -1,24 +1,26 @@
 <template>
   <div class="container">
     <div class="listWrapper">
-      <el-row :gutter="0" class="infinite-list goodsInfinite" v-infinite-scroll="loadMore">
-        <el-col 
-          v-for="item in viewList"
-          :key="item.id + 'col'"
-          :span="6"
-          :xs="24" 
-          :sm="8"
-          :md="6"
-          :lg="6"
-          class="listItem infinite-list-item">
-          <nuxt-link :to="{name:'goods-id',params:{id:item.id},query:{collectionName:'detail'}}">
-            <img :src="item.litpic" :alt="item.title">
-          </nuxt-link>
-        </el-col>
-        <el-col>
-          <div class="listState" v-show="listState">{{listStateTxt}}</div>
-        </el-col>
-      </el-row>
+        <el-row :gutter="0" class="infinite-list goodsInfinite" v-infinite-scroll="loadMore">
+          <el-scrollbar style="height:100%;">
+              <el-col 
+                v-for="item in viewList"
+                :key="item.id + 'col'"
+                :span="6"
+                :xs="24" 
+                :sm="8"
+                :md="6"
+                :lg="6"
+                class="listItem infinite-list-item">
+                <nuxt-link :to="{name:'goods-id',params:{id:item.id},query:{collectionName:'detail'}}">
+                  <el-image :src="item.litpic" :alt="item.title" lazy></el-image>
+                </nuxt-link>
+              </el-col>
+              <el-col>
+                <div class="listState" v-show="listState">{{listStateTxt}}</div>
+              </el-col>
+          </el-scrollbar>
+        </el-row>
     </div>
   </div>
 </template>
@@ -50,11 +52,11 @@ export default {
       }
     },
     beforeCreate(){
-      console.log('index beforeCreate',this.$store.getters.getAllList);
+      // console.log('index beforeCreate',this.$store.getters.getAllList);
         // this.goodsList = this.$store.getters.getAllList
     },
     mounted(){
-      console.log('index mounted',this.$store.getters.getAllList);
+      // console.log('index mounted',this.$store.getters.getAllList);
       // this.goodsList = this.$store.getters.getAllList
     },
     watch:{
@@ -62,13 +64,10 @@ export default {
         // this.goodsList = this.$store.getters.getAllList
       },
       '$store.state.viewList'(){
-        console.log('viewList 改变了');
 
         //更新显示列表
         setTimeout(()=>{
           let vLength = this.$store.getters.getviewList.length;
-          console.log('vLength',vLength);
-
           //少于20个直接全部显示
           if(vLength <= 20){
             this.viewList = this.$store.getters.getviewList;
@@ -84,7 +83,7 @@ export default {
     },
   methods:{
       loadMore () {
-        console.log('执行 loadMore');
+        // console.log('执行 loadMore');
         this.listState = true;
         setTimeout(()=>{
           this.count += 3;  //每次加三个
@@ -98,7 +97,7 @@ export default {
             this.viewList.push(this.goodsList[this.count - tempNum--]);
           }
           this.listState = false;
-        },1000)
+        },500)
       },  
     getStore(){
       //编程式访问vuex

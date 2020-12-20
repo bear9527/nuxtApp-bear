@@ -44,13 +44,20 @@ export const getters = {
     getviewList:(state)=>{
         return state.viewList
     },
-    // 获取typeid 筛选出去
+    // 获取typeid 筛选分类
     screenType: state => (typeid) => {
         if(typeid){
             return state.allList.filter(item=>item.typeid == typeid);
         }else{
-            // return state.allList.slice(0,20);
             return state.allList;
+        }
+    },
+    // 获取id 筛选产品
+    screenGoods: state => (id) => {
+        if(id){
+            return state.allList.filter(item=>item.id == id);
+        }else{
+            return '没有这个吧';
         }
     },
 }
