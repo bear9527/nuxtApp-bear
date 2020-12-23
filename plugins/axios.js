@@ -1,10 +1,17 @@
 export default function({$axios,redirect,route,store}){
+    const whiteUrl = [ '/login' ];  // 请求白名单，不需要携带 Token 的请求
     //基本配置
     $axios.defaults.timeout = 10000;
-
     //请求拦截
     $axios.onRequest(config=>{
         console.log('请求拦截');
+        const url = config.url.replace(config.baseURL, '')
+        // 判断请求的url是否在白名单中，存在就直接 return config ，不携带 Token
+          if (whiteUrl.some(wl => url === wl)) {
+            return config
+        }
+        // console.log(config);
+        // console.log("local allList",localStorage);
         config.headers.token = store.state.user.token;
         return config;
     })
@@ -29,3 +36,20 @@ export default function({$axios,redirect,route,store}){
 
 
 }
+
+
+
+
+      // let aList = store.getters.getAllList;
+        // let vList = store.getters.getViewList;
+        // if(vList.length !== 0){
+        //     console.log("请求拦截 vList 赋值缓存数据",);
+        //     return store.getters.getViewList;
+        // }
+        // if(aList.length !== undefined){
+        //     console.log("请求拦截 aList 赋值缓存数据",);
+        //     return store.getters.getAllList;
+        // }
+        // if(config.url === '/err/list.php'&& aList.length == 0){
+        //     // return store.getters.getviewList;
+        // }

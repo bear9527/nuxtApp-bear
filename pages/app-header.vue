@@ -159,16 +159,14 @@
 <script>
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
   export default {
-    // async async({$axios,store}){
-    //   let res = await $axios({url:'/err/list.php',params:{ajax:'pullload',typeid:0,page:1,pagesize:100}}).then(function(res){
-    //     console.log('async',res);
-    //     store.commit('M_UPDATE_ALLLIST',res.data.list);
-    //   });
+    async fetch({$axios,store}){
+        console.log('header async');
 
-    //   return{
-    //     goodsList:res.data.list,
-    //   }
-    // },
+      return{
+        goodsList:123,
+      }
+    },
+    fetchOnServer: true,
     data() {
       return {
         isCollapse: true, //导航详情是否显示
@@ -217,10 +215,9 @@
       //筛选分类
       switchType(typeid){
         //切换分类的时候跳转
-        this.$router.push('/index');
-        
+        this.$router.push('/goods');
+        //替换展示列表里的数据
         this.$store.commit('M_UPDATE_VIEWLIST',this.$store.getters['screenType'](typeid));
-        // this.$store.commit('M_UPDATE_ALLLIST',this.$store.getters['screenType'](typeid));
       },
       handleOpen(key, keyPath) {
         console.log(key, keyPath);

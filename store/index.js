@@ -41,7 +41,7 @@ export const getters = {
     getAllList:(state)=>{
         return state.allList
     },
-    getviewList:(state)=>{
+    getViewList:(state)=>{
         return state.viewList
     },
     // 获取typeid 筛选分类

@@ -11,6 +11,10 @@
                 :key="item"
                 :src="item"
                 :preview-src-list="goodsObj.imgurls">
+                
+                <div slot="placeholder" class="image-slot">
+                    加载中<span class="dot">...</span>
+                </div>
             </el-image>
         </div>
     </div>
@@ -23,10 +27,13 @@ export default {
         return typeof params.id === 'string'||'number'
     },
     async asyncData({$axios,params,store}){
+        console.log("_id asyncData")
         // let detailObj = await $axios({url:'/err/list.php',params:{ajax:'pullload',typeid:0,page:1,pagesize:20}})
         // let detailObj = await store.getters.getviewList
         // console.log('st',store.getters.getAllList)
-        let goodsObjtemp = store.getters['screenGoods'](params.id)[0];
+        // Object.assign({}, state.playList);
+        //深层拷贝到变量上，浅拷贝会把vuex的引用拷过去
+        let goodsObjtemp = Object.assign({}, store.getters['screenGoods'](params.id)[0]);
         var p=/\{dede:img[^\}]*\}(.*?)\{\/dede:img\}/g;
         var arr=[];
         var m=null;
@@ -34,7 +41,6 @@ export default {
                 arr.push(RegExp.$1);  
         }    
         goodsObjtemp.imgurls = arr;
-        console.log(goodsObjtemp);
         return{
             goodsObj:goodsObjtemp 
         }

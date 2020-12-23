@@ -12,6 +12,7 @@
                 :md="6"
                 :lg="6"
                 class="listItem infinite-list-item">
+                <p>{{item.title}}</p>
                 <nuxt-link :to="{name:'goods-id',params:{id:item.id},query:{collectionName:'detail'}}">
                   <el-image :src="item.litpic" :alt="item.title" lazy></el-image>
                 </nuxt-link>
@@ -32,6 +33,7 @@ export default {
     let res = await $axios({url:'/err/list.php',params:{ajax:'pullload',typeid:0,page:1,pagesize:100}});
     return{
       goodsList:res.data.list,
+      viewList:res.data.list.slice(0,20),  //显示的列表
     }
   },
   async fetch({$axios,store,error}){
@@ -44,47 +46,40 @@ export default {
   },
     data () {
       return {
-        count: 0,
-        goodsList:[], //全部列表
+        count: 20,
+        // goodsList:[], //全部列表
         viewList:[],  //显示的列表
         listState:false,
         listStateTxt:'正在加载...'
       }
     },
-    beforeCreate(){
-      // console.log('index beforeCreate',this.$store.getters.getAllList);
-        // this.goodsList = this.$store.getters.getAllList
-    },
-    mounted(){
-      // console.log('index mounted',this.$store.getters.getAllList);
-      // this.goodsList = this.$store.getters.getAllList
-    },
     watch:{
       '$store.state.allList'(){
         // this.goodsList = this.$store.getters.getAllList
       },
-      '$store.state.viewList'(){
+      // '$store.state.viewList'(){
 
-        //更新显示列表
-        setTimeout(()=>{
-          let vLength = this.$store.getters.getviewList.length;
-          //少于20个直接全部显示
-          if(vLength <= 20){
-            this.viewList = this.$store.getters.getviewList;
-            this.goodsList = [];
-            this.listState = false;
-          }else{
-            this.viewList = this.$store.getters.getviewList.slice(0,20);
-            this.goodsList = this.$store.getters.getviewList.slice(20,vLength - 1);
-            this.listState = false;
-          }
-        },500)
-      }
+      //   //更新显示列表
+      //   setTimeout(()=>{
+      //     let vLength = this.$store.getters.getViewList.length;
+      //     //少于20个直接全部显示
+      //     if(vLength <= 20){
+      //       this.viewList = this.$store.getters.getViewList;
+      //       this.goodsList = [];
+      //       this.listState = false;
+      //     }else{
+      //       this.viewList = this.$store.getters.getViewList.slice(0,20);
+      //       this.goodsList = this.$store.getters.getViewList.slice(20,vLength - 1);
+      //       this.listState = false;
+      //     }
+      //   },500)
+      // }
     },
   methods:{
       loadMore () {
-        // console.log('执行 loadMore');
+        console.log('执行 loadMore');
         this.listState = true;
+        console.log("this.goodsList",this.goodsList)
         setTimeout(()=>{
           this.count += 3;  //每次加三个
           let tempNum = 3;  
@@ -97,7 +92,7 @@ export default {
             this.viewList.push(this.goodsList[this.count - tempNum--]);
           }
           this.listState = false;
-        },500)
+        },50)
       },  
     getStore(){
       //编程式访问vuex
