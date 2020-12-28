@@ -1,8 +1,11 @@
 <template>
   <div class="container">
     <div class="listWrapper">
-        <el-row :gutter="0" class="infinite-list goodsInfinite" v-infinite-scroll="loadMore">
           <el-scrollbar style="height:100%;">
+        <el-row :gutter="0" class="infinite-list goodsInfinite" 
+        v-infinite-scroll="loadMore"
+        infinite-scroll-disabled="listState"
+        >
               <el-col 
                 v-for="item in viewList"
                 :key="item.id + 'col'"
@@ -20,8 +23,8 @@
               <el-col>
                 <div class="listState" v-show="listState">{{listStateTxt}}</div>
               </el-col>
-          </el-scrollbar>
         </el-row>
+          </el-scrollbar>
     </div>
   </div>
 </template>
@@ -79,7 +82,7 @@ export default {
       loadMore () {
         console.log('执行 loadMore');
         this.listState = true;
-        console.log("this.goodsList",this.goodsList)
+        console.log("this.viewList",this.viewList)
         setTimeout(()=>{
           this.count += 3;  //每次加三个
           let tempNum = 3;  
@@ -92,7 +95,7 @@ export default {
             this.viewList.push(this.goodsList[this.count - tempNum--]);
           }
           this.listState = false;
-        },50)
+        },500)
       },  
     getStore(){
       //编程式访问vuex
@@ -124,24 +127,19 @@ body{
 }
 .container {
   width: 100%;
-  height: auto;
+  height: 100%;
   margin: 0 auto;
-  min-height: 100vh;
-  // height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   // overflow-y:auto;
 }
+.listWrapper{
+  width: 100%;
+  height: 100%;
+  }
 .listState{
-  // width: 100%;
-  // height: 100px;
-  //   line-height: 3;
-  //   text-align: center;
-  //   color: #fff;
-  //   background-color: #ff142b;
-
     font-family: cursive;
     background-color: #000;
 
@@ -156,22 +154,10 @@ body{
 
 
 }
-.container >div{
-  width: 100%;
-  height: 100%;
-}
 .goodsInfinite{
   width: 100%;
-  height: 1px;
-  min-height: 100vh;
-  overflow-y:auto;
-
-  // position: relative;
-  //   width: 100%;
-  //   display: inline-flex;
-  //   flex-direction: column;
-  //   align-items: center;
-  //   background: #f7f7f7;
+  height: 100%;
+  overflow-y:hidden
 }
 .title {
   display: block;

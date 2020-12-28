@@ -22,7 +22,7 @@ export default {
     middleware:'auth',
     //扩展路由
     extendRoutes(routers, resolve){
-      console.log(routers);
+      // console.log(routers);
       routers.push({
         name:'root',
         path:'/index',
@@ -41,6 +41,7 @@ export default {
   plugins: [
     '~/plugins/router.js',
     '~/plugins/mixins.js',
+    // '~/plugins/http.js',
     {
       src:'~/plugins/axios',
       ssr: true

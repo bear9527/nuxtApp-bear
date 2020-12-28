@@ -106,10 +106,8 @@ body{
 }
 .pageWrapper{
   .pageLeft{
-    // float: left;
     position: fixed;
     top: 68px;
-    // z-index: 99;
     height: 100%;
     background-color: #fff;
   }
@@ -118,10 +116,9 @@ body{
     margin-top: 64px;
     position: relative;
     z-index: 1;
-      position: relative;
-    // width: 100%;
     width: calc(100% - 64px);
     min-height: calc(100vh - 68px);
+    height: calc(100vh - 68px);
     display: inline-flex;
     flex-direction: column;
     align-items: center;

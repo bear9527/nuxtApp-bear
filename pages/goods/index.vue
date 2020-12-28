@@ -9,38 +9,49 @@
     </div> -->
     <div class="container">
         <div class="listWrapper">
-            <el-row :gutter="0" class="infinite-list goodsInfinite" v-infinite-scroll="loadMore">
             <el-scrollbar style="height:100%;">
-                <el-col 
-                    v-for="item in goodsList"
-                    :key="item.id + 'col'"
-                    :span="6"
-                    :xs="24" 
-                    :sm="8"
-                    :md="6"
-                    :lg="6"
-                    class="listItem infinite-list-item">
-                    <h2>{{item.title}}</h2>
-                    <nuxt-link :to="{name:'goods-id',params:{id:item.id},query:{collectionName:'detail'}}">
-                    <el-image :src="item.litpic" :alt="item.title" lazy></el-image>
-                    </nuxt-link>
-                </el-col>
-                <el-col>
-                    <div class="listState" v-show="listState">{{listStateTxt}}</div>
-                </el-col>
+              <el-row :gutter="0" class="infinite-list goodsInfinite" v-infinite-scroll="loadMore">
+                  <el-col 
+                      v-for="item in goodsList"
+                      :key="item.id + 'col'"
+                      :span="6"
+                      :xs="24" 
+                      :sm="8"
+                      :md="6"
+                      :lg="6"
+                      class="listItem infinite-list-item">
+                      <h2>{{item.title}}</h2>
+                      <nuxt-link :to="{name:'goods-id',params:{id:item.id},query:{collectionName:'detail'}}">
+                      <el-image :src="item.litpic" :alt="item.title" lazy></el-image>
+                      </nuxt-link>
+                  </el-col>
+                  <el-col>
+                      <div class="listState" v-show="listState">{{listStateTxt}}</div>
+                  </el-col>
+              </el-row>
             </el-scrollbar>
-            </el-row>
         </div>
     </div>
 </template>
 <script>
+import http from '../../plugins/http'
 export default {
   async asyncData({$axios,store}){
-    let res = await $axios({url:'/err/list.php',params:{ajax:'pullload',typeid:0,page:1,pagesize:100}});
-    console.log(res.data.list)
+      let resObj = {};
+    await http({$axios,store}).get('/err/list.php').then(function(res){
+      
+      resObj = res;
+      console.log('resObj',res)
+    },function(res){
+      console.log('reject',res)
+    })
+ 
+
+
     return{
-      goodsList:res.data.list,
+      goodsList:resObj,
     }
+    // })
   },
     head(){
         return{
@@ -53,7 +64,7 @@ export default {
     data () {
       return {
         count: 0,
-        // goodsList:[], //全部列表
+        goodsList:[], //全部列表
         viewList:[],  //显示的列表
         listState:false,
         listStateTxt:'正在加载...'
@@ -93,19 +104,18 @@ export default {
 
 <style lang="scss" scoped>
 body{
-  overflow: hidden;
   font-family: cursive;
 }
 .container {
   width: 100%;
-  height: auto;
+  height: 100%;
   margin: 0 auto;
-  min-height: 100vh;
+  // min-height: 100vh;
   // height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
+  // text-align: center;
   // overflow-y:auto;
 }
 .listState{
@@ -138,7 +148,7 @@ body{
   width: 100%;
   height: 1px;
   min-height: 100vh;
-  overflow-y:auto;
+  overflow-y:hidden;
 
   // position: relative;
   //   width: 100%;
