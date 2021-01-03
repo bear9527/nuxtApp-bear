@@ -41,7 +41,11 @@ export default {
   plugins: [
     '~/plugins/router.js',
     '~/plugins/mixins.js',
-    // '~/plugins/http.js',
+    '~/plugins/http.js',
+    // {
+    //   src:'~/plugins/http',
+    //   ssr: true
+    // },
     {
       src:'~/plugins/axios',
       ssr: true

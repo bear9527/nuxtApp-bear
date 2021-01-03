@@ -12,11 +12,9 @@ export default function ({$axios,store}) {
           resolve(store.state.allList)
           console.log('main---api', store.state.allList.length)
         } else {
-          // let eee= $axios({url:'/err/list.php',params:{ajax:'pullload',typeid:0,page:1,pagesize:100}}).then(function(res){
-          //   console.log(res)
-          //   // resolve(res)
-          // });
-          resolve(eee)
+          console.log('main get 无值 发送请求')
+          resolve(this.set(api));
+          // return this.set(api);
         }
 
 
@@ -24,6 +22,16 @@ export default function ({$axios,store}) {
 
 
       })
+      // .then((res)=>{
+      //   return this.set(res);
+      // })
+    },
+    set:async function(api){
+      let eee= await $axios({url:api,params:{ajax:'pullload',typeid:0,page:1,pagesize:100}});
+      // return new Promise((resolve, reject) => {
+      //   resolve(eee.data.list)
+      // });
+      return eee.data.list
     }
   }
 

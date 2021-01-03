@@ -7,7 +7,15 @@
         <nuxt-link to="/goods/comment">评价</nuxt-link>
         <nuxt></nuxt>
     </div> -->
-    <div class="container">
+    <div>
+
+    <div
+     v-for="item in goodsList"
+     :key="item.id">
+     <h2>{{item.title}}</h2>
+    </div>
+    </div>
+    <!-- <div class="container">
         <div class="listWrapper">
             <el-scrollbar style="height:100%;">
               <el-row :gutter="0" class="infinite-list goodsInfinite" v-infinite-scroll="loadMore">
@@ -31,28 +39,24 @@
               </el-row>
             </el-scrollbar>
         </div>
-    </div>
+    </div> -->
 </template>
 <script>
 import http from '../../plugins/http'
 export default {
   async asyncData({$axios,store}){
-      let resObj = {};
+    let resObj = {};
     await http({$axios,store}).get('/err/list.php').then(function(res){
-      
       resObj = res;
-      console.log('resObj',res)
     },function(res){
       console.log('reject',res)
-    })
- 
-
-
+    });
     return{
       goodsList:resObj,
     }
     // })
   },
+
     head(){
         return{
             title:'商品页seo ',
@@ -61,36 +65,36 @@ export default {
             ]
         }
     },
-    data () {
-      return {
-        count: 0,
-        goodsList:[], //全部列表
-        viewList:[],  //显示的列表
-        listState:false,
-        listStateTxt:'正在加载...'
-      }
-    },
+    // data () {
+    //   return {
+    //     count: 0,
+    //     // goodsList:[], //全部列表
+    //     viewList:[],  //显示的列表
+    //     listState:false,
+    //     listStateTxt:'正在加载...'
+    //   }
+    // },
     methods:{
-      loadMore () {
-        // console.log('执行 loadMore');
-        this.listState = true;
-        setTimeout(()=>{
-          this.count += 3;  //每次加三个
-          let tempNum = 3;  
-          for(let i = 0;i<3;i++){
-            if(this.goodsList[this.count - 3] == undefined||this.goodsList[this.count - 2] == undefined||this.goodsList[this.count - 2] == undefined){
-              this.listState = true;
-              this.listStateTxt = '没有更多的啦啦啦';
-              return;
-            }
-            this.viewList.push(this.goodsList[this.count - tempNum--]);
-          }
-          this.listState = false;
-        },500)
-      },  
+      // loadMore () {
+      //   // console.log('执行 loadMore');
+      //   this.listState = true;
+      //   setTimeout(()=>{
+      //     this.count += 3;  //每次加三个
+      //     let tempNum = 3;  
+      //     for(let i = 0;i<3;i++){
+      //       if(this.goodsList[this.count - 3] == undefined||this.goodsList[this.count - 2] == undefined||this.goodsList[this.count - 2] == undefined){
+      //         this.listState = true;
+      //         this.listStateTxt = '没有更多的啦啦啦';
+      //         return;
+      //       }
+      //       this.viewList.push(this.goodsList[this.count - tempNum--]);
+      //     }
+      //     this.listState = false;
+      //   },500)
+      // },  
     getStore(){
       //编程式访问vuex
-      console.log('getSotre',this)
+      // console.log('getSotre',this)
       //发出actions请求给user模块
       // this.$store.dispatch('user/A_UPDATE_USER',{err:0,msg:'登录成功',token:'',data:{title:'user模块的actions提交过来的数据'}});
       // this.$store.commit('user/M_UPDATE_USER',{err:0,msg:'登录成功',token:'',data:{title:'user模块的actions提交过来的数据'}});
