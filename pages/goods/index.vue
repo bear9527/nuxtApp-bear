@@ -1,58 +1,49 @@
 <template>
-    <!-- <div class="goods">
-        <h3>商品页</h3>
-        <nuxt-link to="/goods/1?a=">商品01</nuxt-link>
-        <nuxt-link :to="{name:'goods-id',params:{id:2},query:{a:111,b:222}}">商品02</nuxt-link>
-        <nuxt-link :to="{name:'goods-id',params:{id:3},query:{a:111,b:222}}">商品03</nuxt-link>
-        <nuxt-link to="/goods/comment">评价</nuxt-link>
-        <nuxt></nuxt>
-    </div> -->
-    <div>
-
-    <div
-     v-for="item in goodsList"
-     :key="item.id">
-     <h2>{{item.title}}</h2>
+  <div class="container">
+    <div class="listWrapper">
+          <el-scrollbar style="height:100%;">
+        <el-row :gutter="0" class="infinite-list goodsInfinite" 
+        v-infinite-scroll="loadMore"
+        infinite-scroll-disabled="listState"
+        >
+              <el-col 
+                v-for="item in viewList"
+                :key="item.id + 'col'"
+                :span="6"
+                :xs="24" 
+                :sm="8"
+                :md="6"
+                :lg="6"
+                class="listItem infinite-list-item">
+                <p>{{item.title}}</p>
+                <nuxt-link :to="{name:'goods-id',params:{id:item.id},query:{collectionName:'detail'}}">
+                  <el-image :src="item.litpic" :alt="item.title" lazy></el-image>
+                </nuxt-link>
+              </el-col>
+              <el-col>
+                <div class="listState" v-show="listState">{{listStateTxt}}</div>
+              </el-col>
+        </el-row>
+          </el-scrollbar>
     </div>
-    </div>
-    <!-- <div class="container">
-        <div class="listWrapper">
-            <el-scrollbar style="height:100%;">
-              <el-row :gutter="0" class="infinite-list goodsInfinite" v-infinite-scroll="loadMore">
-                  <el-col 
-                      v-for="item in goodsList"
-                      :key="item.id + 'col'"
-                      :span="6"
-                      :xs="24" 
-                      :sm="8"
-                      :md="6"
-                      :lg="6"
-                      class="listItem infinite-list-item">
-                      <h2>{{item.title}}</h2>
-                      <nuxt-link :to="{name:'goods-id',params:{id:item.id},query:{collectionName:'detail'}}">
-                      <el-image :src="item.litpic" :alt="item.title" lazy></el-image>
-                      </nuxt-link>
-                  </el-col>
-                  <el-col>
-                      <div class="listState" v-show="listState">{{listStateTxt}}</div>
-                  </el-col>
-              </el-row>
-            </el-scrollbar>
-        </div>
-    </div> -->
+  </div>
 </template>
+
 <script>
 import http from '../../plugins/http'
 export default {
-  async asyncData({$axios,store}){
+  async asyncData({$axios,store,route}){
+    let typeid = route.query.typeid;
+    console.log(typeid)
     let resObj = {};
-    await http({$axios,store}).get('/err/list.php').then(function(res){
+    await http({$axios,store}).get('/err/list.php',typeid).then(function(res){
       resObj = res;
     },function(res){
       console.log('reject',res)
     });
     return{
       goodsList:resObj,
+      // viewList:resObj,  //显示的列表
     }
     // })
   },
@@ -65,33 +56,30 @@ export default {
             ]
         }
     },
-    // data () {
-    //   return {
-    //     count: 0,
-    //     // goodsList:[], //全部列表
-    //     viewList:[],  //显示的列表
-    //     listState:false,
-    //     listStateTxt:'正在加载...'
-    //   }
-    // },
+    data () {
+      return {
+        count: 0,
+        viewList:[],  //显示的列表
+        listState:false,
+        listStateTxt:'正在加载...'
+      }
+    },
     methods:{
-      // loadMore () {
-      //   // console.log('执行 loadMore');
-      //   this.listState = true;
-      //   setTimeout(()=>{
-      //     this.count += 3;  //每次加三个
-      //     let tempNum = 3;  
-      //     for(let i = 0;i<3;i++){
-      //       if(this.goodsList[this.count - 3] == undefined||this.goodsList[this.count - 2] == undefined||this.goodsList[this.count - 2] == undefined){
-      //         this.listState = true;
-      //         this.listStateTxt = '没有更多的啦啦啦';
-      //         return;
-      //       }
-      //       this.viewList.push(this.goodsList[this.count - tempNum--]);
-      //     }
-      //     this.listState = false;
-      //   },500)
-      // },  
+      loadMore () {
+        this.listState = true;
+        setTimeout(()=>{
+          let tempNum = 3;  
+          for(let i = 0;i<3;i++){
+            if(this.viewList.length >= this.goodsList.length){
+              this.listState = true;
+              this.listStateTxt = '没有更多的啦啦啦';
+              return;
+            }
+            this.viewList.push(this.goodsList[this.count++]);
+          }
+          this.listState = false;
+        },200);
+      },  
     getStore(){
       //编程式访问vuex
       // console.log('getSotre',this)
@@ -102,34 +90,46 @@ export default {
     //   this.M_UPDATE_USER({err:0,msg:'登录成功',token:'002',data:{title:'002'}});
     },
   },
+  watch:{
+    '$route'(to,from){
+      let typeid = to.query.typeid;
+      
+      this.count=0;
+      this.viewList=[];  //显示的列表
+      this.listState=false;
+      this.listStateTxt='正在加载...';
+        this.$store.commit('M_UPDATE_VIEWLIST',this.$store.getters['screenType'](typeid));
+        
+        this.goodsList = this.$store.getters['screenType'](typeid);
+        console.log(to.query.typeid)
+    }
+    
+  }
+
 }
 </script>
 
 
 <style lang="scss" scoped>
 body{
+  overflow: hidden;
   font-family: cursive;
 }
 .container {
   width: 100%;
   height: 100%;
   margin: 0 auto;
-  // min-height: 100vh;
-  // height: 100vh;
-  // display: flex;
-  // justify-content: center;
-  // align-items: center;
-  // text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
   // overflow-y:auto;
 }
+.listWrapper{
+  width: 100%;
+  height: 100%;
+  }
 .listState{
-  // width: 100%;
-  // height: 100px;
-  //   line-height: 3;
-  //   text-align: center;
-  //   color: #fff;
-  //   background-color: #ff142b;
-
     font-family: cursive;
     background-color: #000;
 
@@ -144,22 +144,10 @@ body{
 
 
 }
-.container >div{
-  width: 100%;
-  height: 100%;
-}
 .goodsInfinite{
   width: 100%;
-  height: 1px;
-  min-height: 100vh;
-  overflow-y:hidden;
-
-  // position: relative;
-  //   width: 100%;
-  //   display: inline-flex;
-  //   flex-direction: column;
-  //   align-items: center;
-  //   background: #f7f7f7;
+  height: 100%;
+  overflow-y:hidden
 }
 .title {
   display: block;

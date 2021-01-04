@@ -215,7 +215,7 @@
       //筛选分类
       switchType(typeid){
         //切换分类的时候跳转
-        this.$router.push('/goods');
+        this.$router.push({name:'goods',query:{'typeid':typeid}});
         //替换展示列表里的数据
         this.$store.commit('M_UPDATE_VIEWLIST',this.$store.getters['screenType'](typeid));
       },

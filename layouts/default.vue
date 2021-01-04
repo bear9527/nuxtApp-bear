@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import AppHeader from "../pages/app-header"
+import AppHeader from "../layouts/app-header"
 export default {
   // middleware:'auth',
   middleware({redirect}){

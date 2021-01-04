@@ -47,8 +47,10 @@ export const getters = {
     // 获取typeid 筛选分类
     screenType: state => (typeid) => {
         if(typeid){
+            console.log('筛选分类 youid', state.allList.filter(item=>item.typeid == typeid))
             return state.allList.filter(item=>item.typeid == typeid);
         }else{
+            console.log('筛选分类',state.allList)
             return state.allList;
         }
     },

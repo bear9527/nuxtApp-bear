@@ -57,46 +57,23 @@ export default {
       }
     },
     watch:{
-      '$store.state.allList'(){
-        // this.goodsList = this.$store.getters.getAllList
-      },
-      // '$store.state.viewList'(){
-
-      //   //更新显示列表
-      //   setTimeout(()=>{
-      //     let vLength = this.$store.getters.getViewList.length;
-      //     //少于20个直接全部显示
-      //     if(vLength <= 20){
-      //       this.viewList = this.$store.getters.getViewList;
-      //       this.goodsList = [];
-      //       this.listState = false;
-      //     }else{
-      //       this.viewList = this.$store.getters.getViewList.slice(0,20);
-      //       this.goodsList = this.$store.getters.getViewList.slice(20,vLength - 1);
-      //       this.listState = false;
-      //     }
-      //   },500)
-      // }
     },
   methods:{
       loadMore () {
-        console.log('执行 loadMore');
         this.listState = true;
-        console.log("this.viewList",this.viewList)
         setTimeout(()=>{
-          this.count += 3;  //每次加三个
           let tempNum = 3;  
           for(let i = 0;i<3;i++){
-            if(this.goodsList[this.count - 3] == undefined||this.goodsList[this.count - 2] == undefined||this.goodsList[this.count - 2] == undefined){
+            if(this.viewList.length >= this.goodsList.length){
               this.listState = true;
               this.listStateTxt = '没有更多的啦啦啦';
               return;
             }
-            this.viewList.push(this.goodsList[this.count - tempNum--]);
+            this.viewList.push(this.goodsList[this.count++]);
           }
           this.listState = false;
-        },500)
-      },  
+        },500);
+      }, 
     getStore(){
       //编程式访问vuex
       console.log('getSotre',this)

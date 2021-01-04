@@ -1,37 +1,38 @@
 export default function ({$axios,store}) {
-    // 
-        console.log($axios)
   return {
 
-    get: function (api) {
+    get: function (api,typeid) {
 
       return new Promise((resolve, reject) => {
         // store.getters.getAllList
         if (store.state.allList.length && api == '/err/list.php') {
           console.log('main get 有值')
+          if(typeid){
+            console.log(typeid,store.getters.getViewList)
+            
+            resolve(store.getters.getViewList)
+          }
           resolve(store.state.allList)
           console.log('main---api', store.state.allList.length)
         } else {
           console.log('main get 无值 发送请求')
-          resolve(this.set(api));
+          resolve(this.set(api,typeid));
           // return this.set(api);
         }
-
-
-
-
-
-      })
-      // .then((res)=>{
-      //   return this.set(res);
-      // })
+      });
     },
-    set:async function(api){
-      let eee= await $axios({url:api,params:{ajax:'pullload',typeid:0,page:1,pagesize:100}});
-      // return new Promise((resolve, reject) => {
-      //   resolve(eee.data.list)
-      // });
-      return eee.data.list
+    set:async function(api,typeid){
+      let ajaxData= await $axios({url:api,params:{ajax:'pullload',typeid:0,page:1,pagesize:100}});
+      if(typeid){
+        console.log(typeid,store)
+        store.commit('M_UPDATE_ALLLIST',ajaxData.data.list);
+        //替换展示列表里的数据
+        
+        store.commit('M_UPDATE_VIEWLIST',store.getters['screenType'](typeid));
+        return store.getters['screenType'](typeid);
+      }else{
+        return ajaxData.data.list;
+      }
     }
   }
 
