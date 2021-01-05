@@ -35,7 +35,7 @@
           <span slot="title">静态网页</span>
           <el-menu-item 
           class="popItem"
-          @click="switchType()"
+          @click="switchType(false)"
           >全部</el-menu-item>
           <el-menu-item 
           class="popItem"
@@ -216,8 +216,11 @@
       switchType(typeid){
         //切换分类的时候跳转
         this.$router.push({name:'goods',query:{'typeid':typeid}});
+        if(!typeid){
+          this.$router.push({name:'goods',query:{'typeid':undefined}});
+        }
         //替换展示列表里的数据
-        this.$store.commit('M_UPDATE_VIEWLIST',this.$store.getters['screenType'](typeid));
+        // this.$store.commit('M_UPDATE_VIEWLIST',this.$store.getters['screenType'](typeid));
       },
       handleOpen(key, keyPath) {
         console.log(key, keyPath);

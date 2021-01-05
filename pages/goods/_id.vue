@@ -1,6 +1,8 @@
 <template>
     <div class="goodsWrapper">
         <div class="goodsTop">
+        <!-- <el-page-header @back="goBack" content="详情页面">
+        </el-page-header> -->
             <h1>{{goodsObj.title}}</h1>
             <h4>{{goodsObj.title}}</h4>
         </div>
@@ -55,6 +57,11 @@ export default {
         // setTimeout(()=>{
         // console.log('st',this.$store.getters.getAllList)
         // },50)
+    },
+    methods:{
+      goBack() {
+        console.log('go back');
+      }
     }
 }
 </script>

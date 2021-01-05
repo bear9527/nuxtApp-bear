@@ -2,29 +2,29 @@
   <div class="container">
     <div class="listWrapper">
           <el-scrollbar style="height:100%;">
-        <el-row :gutter="0" class="infinite-list goodsInfinite" 
-        v-infinite-scroll="loadMore"
-        infinite-scroll-disabled="listState"
-        >
-              <el-col 
-                v-for="item in viewList"
-                :key="item.id + 'col'"
-                :span="6"
-                :xs="24" 
-                :sm="8"
-                :md="6"
-                :lg="6"
-                class="listItem infinite-list-item">
-                <p>{{item.title}}</p>
-                <nuxt-link :to="{name:'goods-id',params:{id:item.id},query:{collectionName:'detail'}}">
-                  <el-image :src="item.litpic" :alt="item.title" lazy></el-image>
-                </nuxt-link>
-              </el-col>
-              <el-col>
-                <div class="listState" v-show="listState">{{listStateTxt}}</div>
-              </el-col>
-        </el-row>
-          </el-scrollbar>
+            <el-row :gutter="0" class="infinite-list goodsInfinite" 
+            v-infinite-scroll="loadMore"
+            infinite-scroll-disabled="listState"
+            >
+                  <el-col 
+                    v-for="item in viewList"
+                    :key="item.id + 'col'"
+                    :span="6"
+                    :xs="24" 
+                    :sm="8"
+                    :md="6"
+                    :lg="6"
+                    class="listItem infinite-list-item">
+                    <p>{{item.title}}</p>
+                    <nuxt-link :to="{name:'goods-id',params:{id:item.id},query:{collectionName:'detail'}}">
+                      <el-image :src="item.litpic" :alt="item.title" lazy></el-image>
+                    </nuxt-link>
+                  </el-col>
+                  <el-col>
+                    <div class="listState" v-show="listState">{{listStateTxt}}</div>
+                  </el-col>
+            </el-row>
+        </el-scrollbar>
     </div>
   </div>
 </template>
@@ -66,6 +66,7 @@ export default {
     },
     methods:{
       loadMore () {
+        console.log("loadmore")
         this.listState = true;
         setTimeout(()=>{
           let tempNum = 3;  
@@ -80,28 +81,16 @@ export default {
           this.listState = false;
         },200);
       },  
-    getStore(){
-      //编程式访问vuex
-      // console.log('getSotre',this)
-      //发出actions请求给user模块
-      // this.$store.dispatch('user/A_UPDATE_USER',{err:0,msg:'登录成功',token:'',data:{title:'user模块的actions提交过来的数据'}});
-      // this.$store.commit('user/M_UPDATE_USER',{err:0,msg:'登录成功',token:'',data:{title:'user模块的actions提交过来的数据'}});
-      // this.A_UPDATE_USER({err:0,msg:'登录成功',token:'001',data:{title:'001'}});
-    //   this.M_UPDATE_USER({err:0,msg:'登录成功',token:'002',data:{title:'002'}});
-    },
   },
   watch:{
     '$route'(to,from){
       let typeid = to.query.typeid;
       
       this.count=0;
-      this.viewList=[];  //显示的列表
       this.listState=false;
       this.listStateTxt='正在加载...';
-        this.$store.commit('M_UPDATE_VIEWLIST',this.$store.getters['screenType'](typeid));
-        
-        this.goodsList = this.$store.getters['screenType'](typeid);
-        console.log(to.query.typeid)
+      this.goodsList = this.$store.getters['screenType'](typeid);
+      this.viewList = this.goodsList;
     }
     
   }
