@@ -4,13 +4,12 @@ export default function ({$axios,store}) {
     get: function (api,typeid) {
 
       return new Promise((resolve, reject) => {
-        // store.getters.getAllList
         if (store.state.allList.length && api == '/err/list.php') {
           console.log('main get 有值')
           if(typeid){
-            console.log(typeid,store.getters.getViewList)
-            
-            resolve(store.getters.getViewList)
+            //如果有typeid证明是进的产品分类列表页
+            resolve(store.getters['screenType'](typeid))
+            store.commit('M_UPDATE_VIEWLIST',store.getters['screenType'](typeid));
           }
           resolve(store.state.allList)
           console.log('main---api', store.state.allList.length)

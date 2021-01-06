@@ -10,7 +10,7 @@
                 v-for="item in viewList"
                 :key="item.id + 'col'"
                 :span="6"
-                :xs="24" 
+                :xs="12" 
                 :sm="8"
                 :md="6"
                 :lg="6"
@@ -30,15 +30,28 @@
 </template>
 
 <script>
+import http from '../plugins/http'
 import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
 export default {
-  async asyncData({$axios,store}){
-    let res = await $axios({url:'/err/list.php',params:{ajax:'pullload',typeid:0,page:1,pagesize:100}});
+    async asyncData({$axios,store}){
+    let resObj = {};
+    await http({$axios,store}).get('/err/list.php').then(function(res){
+      resObj = res;
+    },function(res){
+      console.log('reject',res)
+    });
     return{
-      goodsList:res.data.list,
-      viewList:res.data.list.slice(0,20),  //显示的列表
+      goodsList:resObj,
+      viewList:resObj.slice(0,20),  //显示的列表
     }
   },
+  // async asyncData({$axios,store}){
+  //   let res = await $axios({url:'/err/list.php',params:{ajax:'pullload',typeid:0,page:1,pagesize:100}});
+  //   return{
+  //     goodsList:res.data.list,
+  //     viewList:res.data.list.slice(0,20),  //显示的列表
+  //   }
+  // },
   async fetch({$axios,store,error}){
     let res2 = await $axios({url:'/api/list.json',params:{_limit:1}})
     res2.data && store.commit('home/M_UPDATE_HOME',{err:0,data:res2.data})

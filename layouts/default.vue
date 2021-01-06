@@ -1,10 +1,10 @@
 <template>
   <div class="pageWrapper">
     <div class="pageLeft">
-      <app-header v-if="isTrue"/>
+      <app-header v-if="isTrue" :navShow.sync='navShow' />
     </div>
-    <div class="pageMain">
-      <Nuxt />
+    <div class="pageMain" :class="{pageMainAll:navShow}">
+      <Nuxt/>
     </div>
   </div>
 </template>
@@ -25,8 +25,15 @@ export default {
   },
   data(){
     return{
-      isTrue :true
+      isTrue :true,
+      navShow:true,
     }
+  },
+  methods:{
+        changeValue(){
+          console.log("changeValue")
+            this.navShow = !this.navShow
+        }
   },
   watch:{
     $route:{
@@ -123,6 +130,10 @@ body{
     flex-direction: column;
     align-items: center;
     background: #f7f7f7;
+  }
+  .pageMainAll{
+    margin-left: 0;
+    width: calc(100%);
   }
 }
 </style>

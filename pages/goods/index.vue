@@ -10,7 +10,7 @@
                     v-for="item in viewList"
                     :key="item.id + 'col'"
                     :span="6"
-                    :xs="24" 
+                    :xs="12" 
                     :sm="8"
                     :md="6"
                     :lg="6"

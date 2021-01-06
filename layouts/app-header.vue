@@ -23,7 +23,7 @@
         </div>
     </div>
     <el-menu default-active="1-4-1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
-      :collapse="isCollapse">
+      :collapse="isCollapse" v-show="isShowLeftNav">
       <el-submenu index="1">
         <template slot="title">
           <i class="el-icon-location zdyIcon">
@@ -71,10 +71,10 @@
 
 </template>
 <style lang="scss" scoped>
-  .el-menu-vertical-demo:not(.el-menu--collapse) {
-    width: 200px;
-    min-height: 400px;
-  }
+  // .el-menu-vertical-demo:not(.el-menu--collapse) {
+  //   width: 200px;
+  //   min-height: 400px;
+  // }
   .zdyIcon{
       vertical-align: top;
       padding-top: 6px;
@@ -102,13 +102,22 @@
 
 
   }
+  
+ /deep/ .el-menu--popup-right-start {
+    margin-left: 5px;
+    margin-right: 5px;
+    width: 70%;
+    max-width: 70%;
+}
   /deep/ .el-menu-item-group{
+    max-width: 70%;
     padding: 0;
     background-color: #fff;
   }
   /deep/ .popItem{
     height:40px;
     line-height: 40px;
+    float: left;
   }
 
   .navBtn {
@@ -154,6 +163,7 @@
           }
       }
   }
+
 </style>
 
 <script>
@@ -167,9 +177,11 @@
       }
     },
     fetchOnServer: true,
+    props:['navShow'],
     data() {
       return {
         isCollapse: true, //导航详情是否显示
+        isShowLeftNav: false, //导航详情是否显示
         allData:{},
         navData:[],
 
@@ -206,11 +218,18 @@
     },
     methods: {
       tapNavBtn(){
-          if(this.isCollapse){
-              this.isCollapse = false;
-          }else{
-              this.isCollapse = true;
-          }
+        if(this.isShowLeftNav){
+          this.isShowLeftNav = false;
+           this.$emit('update:navShow', true); 
+        }else{
+          this.isShowLeftNav = true;
+           this.$emit('update:navShow', false); 
+        }
+          // if(this.isCollapse){
+          //     this.isCollapse = false;
+          // }else{
+          //     this.isCollapse = true;
+          // }
       },
       //筛选分类
       switchType(typeid){
