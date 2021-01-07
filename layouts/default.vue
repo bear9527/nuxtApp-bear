@@ -1,16 +1,16 @@
 <template>
   <div class="pageWrapper">
     <div class="pageLeft">
-      <app-header v-if="isTrue" :navShow.sync='navShow' />
+      <appHeader v-if="isTrue" :navShowFun.sync='navShow' />
     </div>
-    <div class="pageMain" :class="{pageMainAll:navShow}">
-      <Nuxt/>
+    <div class="pageMain" :class="{'pageMainAll': navShow}">
+      <Nuxt />
     </div>
   </div>
 </template>
 
 <script>
-import AppHeader from "../layouts/app-header"
+import appHeader from "../layouts/app-header"
 export default {
   // middleware:'auth',
   middleware({redirect}){
@@ -49,7 +49,7 @@ export default {
     }
   },
   components:{
-    AppHeader
+    appHeader
   }
 }
 </script>
