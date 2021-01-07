@@ -26,14 +26,14 @@ export default {
   data(){
     return{
       isTrue :true,
-      navShow:true,
+      navShow:true, //双向数据绑定
     }
   },
   methods:{
-        changeValue(){
-          console.log("changeValue")
-            this.navShow = !this.navShow
-        }
+        // changeValue(){
+        //   console.log("changeValue")
+        //     this.navShow = !this.navShow
+        // }
   },
   watch:{
     $route:{

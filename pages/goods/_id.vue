@@ -1,8 +1,8 @@
 <template>
     <div class="goodsWrapper">
         <div class="goodsTop">
-        <!-- <el-page-header @back="goBack" content="详情页面">
-        </el-page-header> -->
+        <el-page-header @back="goBack" content="详情页面">
+        </el-page-header>
             <h1>{{goodsObj.title}}</h1>
             <h4>{{goodsObj.title}}</h4>
         </div>
@@ -23,19 +23,18 @@
 </template>
 
 <script>
+import http from '~/plugins/http'
 export default {
     name:'goods-details',
     validate({params,query}){   //校验参数是否为数字 否则不让访问
         return typeof params.id === 'string'||'number'
     },
     async asyncData({$axios,params,store}){
-        console.log("_id asyncData")
-        // let detailObj = await $axios({url:'/err/list.php',params:{ajax:'pullload',typeid:0,page:1,pagesize:20}})
-        // let detailObj = await store.getters.getviewList
-        // console.log('st',store.getters.getAllList)
-        // Object.assign({}, state.playList);
-        //深层拷贝到变量上，浅拷贝会把vuex的引用拷过去
-        let goodsObjtemp = Object.assign({}, store.getters['screenGoods'](params.id)[0]);
+        let goodsObjtemp = {};
+        await http({$axios,store}).get("/err/list.php",null,params.id).then((res)=>{
+            goodsObjtemp = res;
+            console.log('goods http',goodsObjtemp)
+        })
         var p=/\{dede:img[^\}]*\}(.*?)\{\/dede:img\}/g;
         var arr=[];
         var m=null;

@@ -20,9 +20,9 @@ export default function({$axios,redirect,route,store}){
     $axios.onResponse(res=>{
         // console.log("route.fullPath",route.fullPath)
         // console.log("res222",res.data)
-        if(res.data.err == 2 && route.fullPath !== '/login'){
-            redirect('/login?path='+ route.fullPath);
-        }
+        // if(res.data.err == 2 && route.fullPath !== '/login'){
+        //     redirect('/login?path='+ route.fullPath);
+        // }
 
         return res;
     })
@@ -36,20 +36,3 @@ export default function({$axios,redirect,route,store}){
 
 
 }
-
-
-
-
-      // let aList = store.getters.getAllList;
-        // let vList = store.getters.getViewList;
-        // if(vList.length !== 0){
-        //     console.log("请求拦截 vList 赋值缓存数据",);
-        //     return store.getters.getViewList;
-        // }
-        // if(aList.length !== undefined){
-        //     console.log("请求拦截 aList 赋值缓存数据",);
-        //     return store.getters.getAllList;
-        // }
-        // if(config.url === '/err/list.php'&& aList.length == 0){
-        //     // return store.getters.getviewList;
-        // }

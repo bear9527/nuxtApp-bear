@@ -16,7 +16,7 @@
                 :lg="6"
                 class="listItem infinite-list-item">
                 <p>{{item.title}}</p>
-                <nuxt-link :to="{name:'goods-id',params:{id:item.id},query:{collectionName:'detail'}}">
+                <nuxt-link :to="{name:'goods-id',params:{id:item.id}}">
                   <el-image :src="item.litpic" :alt="item.title" lazy></el-image>
                 </nuxt-link>
               </el-col>

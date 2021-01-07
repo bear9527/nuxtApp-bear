@@ -21,7 +21,7 @@
             <div class="listItemWrapper">
               <nuxt-link
                 class="linkA"
-                :to="{name:'goods-id',params:{id:item.id},query:{collectionName:'detail'}}"
+                :to="{name:'goods-id',params:{id:item.id}}"
               >
                 <el-image
                   :src="item.litpic"
