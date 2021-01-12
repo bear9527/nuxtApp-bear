@@ -32,7 +32,7 @@ export default {
     async asyncData({$axios,params,store}){
         let goodsObjtemp = {};
         await http({$axios,store}).get("/err/list.php",null,params.id).then((res)=>{
-            goodsObjtemp = res;
+            goodsObjtemp = Object.assign({},res);
             console.log('goods http',goodsObjtemp)
         })
         var p=/\{dede:img[^\}]*\}(.*?)\{\/dede:img\}/g;
