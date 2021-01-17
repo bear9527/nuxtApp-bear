@@ -28,8 +28,8 @@ export const mutations = {
 export const actions = {
     nuxtServerInit(store,{app:{$cookies}}){
         //初始化token东西到store当中
-        let user = $cookies.get("user") ? $cookies.get("user") : {err:2,msg:"未登录",token:""};
-        store.commit("user/M_UPDATE_USER",user);
+        // let user = $cookies.get("user") ? $cookies.get("user") : {err:2,msg:"未登录",token:""};
+        // store.commit("user/M_UPDATE_USER",user);
     }
 }
 

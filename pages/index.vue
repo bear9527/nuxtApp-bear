@@ -53,8 +53,8 @@ export default {
   //   }
   // },
   async fetch({$axios,store,error}){
-    let res2 = await $axios({url:'/api/list.json',params:{_limit:1}})
-    res2.data && store.commit('home/M_UPDATE_HOME',{err:0,data:res2.data})
+    // let res2 = await $axios({url:'/api/list.json',params:{_limit:1}})
+    // res2.data && store.commit('home/M_UPDATE_HOME',{err:0,data:res2.data})
     // store.commit('home/M_UPDATE_USER',{err:0,msg:'登录成功',token:'',data:{title:'user模块的actions提交过来的数据'}});
 
     
@@ -144,6 +144,7 @@ body{
 
 
 }
+
 .goodsInfinite{
   width: 100%;
   height: 100%;

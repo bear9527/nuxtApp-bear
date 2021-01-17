@@ -6,6 +6,10 @@
     <div class="pageMain" :class="{'pageMainAll': navShow}">
       <Nuxt />
     </div>
+    <div class="pageBottom">
+      COPYRIGHT © 2021 小熊的网页库 <a href="https://beian.miit.gov.cn" target="_blank">京ICP备18049828号-2</a>
+      <a href="/sitemap">站点地图</a>友链：<a href="bear9527.com">网页库</a>
+    </div>
   </div>
 </template>
 
@@ -75,6 +79,7 @@ html {
 body{
   width: 100%;
   height: 100vh;
+  overflow-x: hidden;
 }
 *,
 *::before,
@@ -124,8 +129,9 @@ body{
     position: relative;
     z-index: 1;
     width: calc(100% - 64px);
-    min-height: calc(100vh - 68px);
-    height: calc(100vh - 68px);
+    // min-height: calc(100vh - 68px);
+    height: calc(100vh - 98px);
+    overflow-x: hidden;
     display: inline-flex;
     flex-direction: column;
     align-items: center;
@@ -134,6 +140,14 @@ body{
   .pageMainAll{
     margin-left: 0;
     width: calc(100%);
+  }
+}
+.pageBottom{
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  a{
+    color:#000;
   }
 }
 </style>
