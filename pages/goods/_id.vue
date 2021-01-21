@@ -94,11 +94,16 @@ export default {
     .goodsContainer{
         position: relative;
         height: 300px;
+        overflow: hidden;
         .containerBg{
+            width: 100%;
             position: absolute;
             top: 0;
             z-index: -1;
             filter: blur(6px); /* 模糊效果，与宽高搭配做适当调整，把白边推出边界隐藏掉 */
+            img{
+                width: 100%;
+            }
         }
         .containerMain{
             width: 100%;
