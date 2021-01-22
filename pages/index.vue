@@ -13,7 +13,7 @@
             :xs="12"
             :sm="8"
             :md="6"
-            :lg="6"
+            :lg="4"
             v-for="item in viewList"
             :key="item.id"
             class="listItem infinite-list-item"
