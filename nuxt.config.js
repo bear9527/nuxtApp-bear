@@ -6,12 +6,12 @@ export default {
     host:'0.0.0.0'
   },
   head: {
-    title: 'nuxtApp --seo 公共标题',
+    title: '小熊的网页库 - HTML静态网页成品下载 DW大学生网页作业制作毕业设计 Dreamweaver简单网页成品',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '这是seo的description' },
-      { hid: 'keywords', name: 'keywords', content: '这是seo的keywords' }
+      { hid: 'description', name: 'description', content: 'HTML静态网页作业成品下载，DW大学生网页制作毕业设计，Dreamweaver简单网页成品，简单学生HTML静态DW Dreamweaver网页毕业设计制作作业成品下载代做，DIV CSS源码模板。' },
+      { hid: 'keywords', name: 'keywords', content: '网页毕业设计,网页作业,网页作业成品,网页作业成品下载,静态网页作业,网页设计作业,学生网页作业,网页制作作业,学生网页制作,成品网页' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }

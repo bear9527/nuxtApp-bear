@@ -29,13 +29,14 @@
                   >
                 </div>
                 <div class="infoWrapper">
-                  <span>好吃的汉堡</span>
+                  <span>{{item.title}}</span>
                   <div class="bottom clearfix">
-                    <time class="time">{{item.title}}</time>
+                    <time class="time">编号：{{item.mbbh.mbbh}}</time>
                     <el-button
                       type="text"
                       class="button"
-                    >操作按钮</el-button>
+                    >查看详情
+                    </el-button>
                   </div>
                 </div>
               </nuxt-link>

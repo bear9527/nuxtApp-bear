@@ -20,6 +20,7 @@
             <ul>
                 <li class="current">作品介绍</li>
                 <li>下载记录（0）</li>
+                <li><h2 style="font-weight:bold;float:right;margin-right:20px;">获得源码联系站长qq: 3021566772</h2></li>
             </ul>
         </div>
         <div class="goodsPreview clearfix">

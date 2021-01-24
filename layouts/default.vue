@@ -6,9 +6,9 @@
     <div class="pageMain" :class="{'pageMainAll': navShow}">
       <Nuxt />
     </div>
-    <div class="pageBottom">
+    <div class="pageBottom"><h2 style="font-weight:bold;float:right;margin-right:20px;">获得源码联系站长qq: 3021566772</h2>
       COPYRIGHT © 2021 小熊的网页库 <a href="https://beian.miit.gov.cn" target="_blank">京ICP备18049828号-2</a>
-      <a href="/sitemap">站点地图</a>友链：<a href="https://bear9527.com">网页库</a>
+      <a href="/sitemap">站点地图</a>友链：<a href="https://bear9527.com">网页库</a> 
     </div>
   </div>
 </template>
